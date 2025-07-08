@@ -105,6 +105,9 @@ onMounted(() => {
 
         // Add click event for city names
         setupCityClickHandlers()
+
+        // Initialize the selected city to Toronto
+        selectedCity.value = { name: 'Toronto', country: 'CA', lat: 43.7, lng: -79.42 }
     })
 
     // console.log(map.value);
