@@ -15,6 +15,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+const { post } = useApi()
+
 const email = ref<string>('');
 const formRef = ref();
 
@@ -66,13 +68,7 @@ const submitRequest = async () => {
             email: email.value,
         };
 
-        const response = await fetch('http://localhost:3001/request', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(requestData)
-        });
+        const response = await post('/request', requestData);
 
         if (!response.ok) {
             throw new Error('Failed to submit request');

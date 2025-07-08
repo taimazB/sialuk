@@ -21,6 +21,49 @@ import { ref, onMounted, unref } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { storeToRefs } from 'pinia'
+
+// SEO Meta Tags
+useSeoMeta({
+  title: 'Climate Rings - Interactive Historical Climate Data Visualization',
+  description: 'Explore historical climate data through interactive maps and visualizations. Discover temperature patterns, climate trends, and weather data for cities worldwide from 1940 onwards.',
+  keywords: 'climate data, historical weather, temperature maps, climate visualization, weather patterns, climate change, environmental data',
+  author: 'Sialuk',
+  ogTitle: 'Climate Rings - Interactive Historical Climate Data',
+  ogDescription: 'Explore historical climate data through interactive maps and visualizations. Discover temperature patterns and climate trends for cities worldwide.',
+  ogImage: '/og-image.jpg', // Make sure you have a good OG image
+  ogUrl: 'https://sialuk.com/climate-rings',
+  ogType: 'website',
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Climate Rings - Interactive Climate Data',
+  twitterDescription: 'Explore historical climate data through interactive maps and visualizations.',
+  twitterImage: '/og-image.jpg'
+})
+
+// Structured Data for SEO
+useHead({
+  script: [{
+    type: 'application/ld+json',
+    innerHTML: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Climate Rings",
+      "description": "Interactive historical climate data visualization tool",
+      "url": "https://sialuk.com/climate-rings",
+      "applicationCategory": "EnvironmentalApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Sialuk"
+      }
+    })
+  }]
+})
+
 const historicalStore = useHistoricalStore()
 
 const { selectedCity } = storeToRefs(historicalStore)

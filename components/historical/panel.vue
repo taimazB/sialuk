@@ -64,7 +64,7 @@ import { ref, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useHistoricalStore } from '~/stores/historical';
 const historicalStore = useHistoricalStore();
-
+const { buildUrl } = useApi()
 
 interface Props {
     city: { name: string; country: string, lat: number, lng: number } | null;
@@ -93,7 +93,7 @@ const fetchImage = async (lat: number, lng: number, year?: number) => {
         lng = Math.floor(lng * 4) / 4
 
         const yearToUse = year || selectedYear.value || 1940;
-        const url = `http://localhost:3001/renders/minmax/lat${lat.toFixed(2)}/lon${lng.toFixed(2)}/${yearToUse}_1.png`;
+        const url = buildUrl(`/renders/minmax/lat${lat.toFixed(2)}/lon${lng.toFixed(2)}/${yearToUse}_1.png`);
 
         // Test if the image URL is accessible
         const response = await fetch(url);

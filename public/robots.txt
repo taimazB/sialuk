@@ -1,2 +1,8 @@
 User-Agent: *
 Disallow:
+
+# Sitemap
+Sitemap: https://sialuk.com/sitemap.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1

@@ -23,23 +23,22 @@ import { storeToRefs } from 'pinia'
 const historicalStore = useHistoricalStore()
 
 const { selectedCity } = storeToRefs(historicalStore)
+const { get } = useApi()
 
 const selectedCityName = ref<string>(''); // This will hold the selected city name
 const cities = ref<{ City: string; Country: string; Lat: number; Lon: number; lat: number; lon: number }[]>([]); // This will hold the fetched city data
 const cityNames = ref<string[]>([]);
 
-onMounted(() => {
-    const url = 'http://localhost:3001/cities'; // Replace with your API endpoint
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            // Assuming data is an array of city names
-            cities.value = data;
-            cityNames.value = data.map((x: { City: string }) => x.City);
-        })
-        .catch(error => {
-            console.error('Error fetching cities:', error);
-        });
+onMounted(async () => {
+    try {
+        const response = await get('/cities')
+        const data = await response.json()
+        // Assuming data is an array of city names
+        cities.value = data;
+        cityNames.value = data.map((x: { City: string }) => x.City);
+    } catch (error) {
+        console.error('Error fetching cities:', error);
+    }
 });
 
 // Watch for changes in selectedCityName and update the historical store
