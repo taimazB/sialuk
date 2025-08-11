@@ -3,6 +3,7 @@ import { ref, computed } from "vue";
 
 export const useHistoricalStore = defineStore("historical", () => {
   // State
+  const lastUpdateDate = ref<string | null>(null);
   const selectedYear = ref<number | null>(null);
   const selectedCity = ref<{ name: string; country: string; lat: number; lng: number } | null>(null);
   const isPlaying = ref<boolean>(false);
@@ -19,6 +20,10 @@ export const useHistoricalStore = defineStore("historical", () => {
   const stats = computed(() => ["min", "mean", "max"]);
 
   // Actions
+  const setLastUpdateDate = (date: string) => {
+    lastUpdateDate.value = date;
+  };
+
   const setYear = (year: number) => {
     selectedYear.value = year;
   };
@@ -80,6 +85,7 @@ export const useHistoricalStore = defineStore("historical", () => {
 
   return {
     // State
+    lastUpdateDate,
     selectedYear,
     selectedCity,
     isPlaying,
@@ -87,6 +93,7 @@ export const useHistoricalStore = defineStore("historical", () => {
     availableYears,
     stats,
     // Actions
+    setLastUpdateDate,
     setYear,
     previousYear,
     nextYear,

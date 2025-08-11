@@ -21,27 +21,45 @@
                     <p v-if="imageError" class="mt-2 text-error">{{ imageError }}</p>
 
                     <HistoricalRequestForm v-if="imageError && !isRequestSubmitted" :city-name="props.city?.name"
-                        :lat="props.city?.lat" :lng="props.city?.lng" @request-submitted="isRequestSubmitted = true" @error="imageError = $event" />
+                        :lat="props.city?.lat" :lng="props.city?.lng" @request-submitted="isRequestSubmitted = true"
+                        @error="imageError = $event" />
 
                     <v-alert v-if="isRequestSubmitted" type="success" class="ma-3"
                         text="Request submitted successfully! You will be notified when the image is available."></v-alert>
                 </div>
             </div>
-            <v-img v-else-if="imageUrl" :src="imageUrl" :alt="props.city?.name" cover style=" width: 100%;"
-                @error="imageError = 'Failed to load image'">
-                <v-row class="ma-0 pa-2" style="position: absolute; top: 0; right: 0;">
-                    <v-btn size="x-small" icon v-if="imageUrl" variant="tonal" color="primary" @click="downloadImage"
-                        :disabled="isLoading" class="mr-1">
-                        <v-icon>mdi-download</v-icon>
-                        <v-tooltip activator="parent" location="bottom">Download Image</v-tooltip>
-                    </v-btn>
-                    <v-btn size="x-small" icon v-if="imageUrl" variant="tonal" color="secondary" @click="openInNewTab"
-                        :disabled="isLoading">
-                        <v-icon>mdi-open-in-new</v-icon>
-                        <v-tooltip activator="parent" location="bottom">Open in New Tab</v-tooltip>
-                    </v-btn>
-                </v-row>
-            </v-img>
+
+            <v-card v-else-if="imageUrl" flat>
+                <v-img :src="imageUrl" :alt="props.city?.name" cover style=" width: 100%;"
+                    @error="imageError = 'Failed to load image'">
+                    <v-row class="ma-0 pa-2" style="position: absolute; top: 0; right: 0;">
+                        <v-btn size="x-small" icon v-if="imageUrl" variant="tonal" color="primary"
+                            @click="downloadImage" :disabled="isLoading" class="mr-1">
+                            <v-icon>mdi-download</v-icon>
+                            <v-tooltip activator="parent" location="bottom">Download Image</v-tooltip>
+                        </v-btn>
+                        <v-btn size="x-small" icon v-if="imageUrl" variant="tonal" color="secondary"
+                            @click="openInNewTab" :disabled="isLoading">
+                            <v-icon>mdi-open-in-new</v-icon>
+                            <v-tooltip activator="parent" location="bottom">Open in New Tab</v-tooltip>
+                        </v-btn>
+                    </v-row>
+                </v-img>
+
+                <v-card-text class="pa-1 text-caption" style="font-style: italic;">
+                 Last updated: {{ lastUpdateDate }}
+                </v-card-text>
+                <v-card-text class="pa-1 text-caption" style="font-style: italic;">
+                    Image for {{ props.city?.name }} in {{ selectedYear }}
+                </v-card-text>
+                <v-card-text class="pa-1 text-caption" style="font-style: italic;">
+                    Mean Temperature based on 1990-2020
+                </v-card-text>
+
+                <v-card-text class="pa-0">
+                </v-card-text>
+            </v-card>
+
             <div v-else class="text-center d-flex align-center justify-center" style="height: 100%;">
                 <div>
                     <v-icon color="grey" size="48">mdi-image-off</v-icon>
@@ -63,7 +81,8 @@
 import { ref, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useHistoricalStore } from '~/stores/historical';
-const historicalStore = useHistoricalStore();
+
+
 const { buildUrl } = useApi()
 
 interface Props {
@@ -73,7 +92,8 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits(['close']);
 
-const { selectedYear } = storeToRefs(historicalStore);
+const historicalStore = useHistoricalStore();
+const { selectedYear, lastUpdateDate } = storeToRefs(historicalStore);
 
 
 /////////////////////////////////////  REFS  ////////////////////////////////////

@@ -65,8 +65,10 @@ useHead({
 })
 
 const historicalStore = useHistoricalStore()
+const { get } = useApi()
 
 const { selectedCity } = storeToRefs(historicalStore)
+const { setLastUpdateDate } = historicalStore
 // Get the Mapbox access token from runtime config
 const config = useRuntimeConfig()
 
@@ -77,7 +79,7 @@ const map = ref<mapboxgl.Map | null>(null)
 const mapContainer = ref<HTMLElement | null>(null)
 
 /////////////////////////  HOOKS  /////////////////////////
-onMounted(() => {
+onMounted(async () => {
     // Set the access token from environment variables
     mapboxgl.accessToken = config.public.mapboxAccessToken
 
@@ -125,6 +127,15 @@ onMounted(() => {
         onUnmounted(() => {
             resizeObserver.disconnect()
         })
+    }
+
+    try {
+        const response = await get('/lastUpdateDate')
+        const data = await response.json()
+        // Assuming data is the last update date
+        setLastUpdateDate(data.lastUpdateDate)
+    } catch (error) {
+        console.error('Error fetching last update date:', error);
     }
 })
 
