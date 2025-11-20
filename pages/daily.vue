@@ -37,7 +37,7 @@
                                 <video controls loop autoplay muted style="width:100%;"
                                     :key="`${provinces[iSelectedProvince].value}_${field.key}`">
                                     <source
-                                        :src="`https://taimazdo.ddns.net/sialuk_videos/${provinces[iSelectedProvince].value}_${field.key}.mp4`"
+                                        :src="`https://do.taimaz.ca/sialuk_videos/${provinces[iSelectedProvince].value}_${field.key}.mp4`"
                                         type="video/mp4">
                                     Your browser does not support the video tag.
                                 </video>
